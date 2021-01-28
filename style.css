@@ -1,0 +1,41 @@
+body {
+  color: white;
+}
+body > div:first-child {
+  height: 100vh;
+  position: relative;
+}
+
+.header {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 5%;
+  top: 40%;
+}
+/* header animaton */
+
+@keyframes header {
+  from {
+    top: 40%;
+  }
+  to {
+    top: 5%;
+  }
+}
+
+/* board */
+#board {
+  margin: 0 auto;
+  position: relative;
+  top: 30%;
+  height: 50%;
+  width: 50%;
+  visibility: hidden;
+}
+
+.tile {
+  height: 100%;
+  width: 100%;
+  border: solid royalblue 5px;
+}
