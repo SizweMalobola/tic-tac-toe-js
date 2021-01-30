@@ -25,7 +25,10 @@ function StartPlayerTwoMode() {
   board.style.visibility = "visible";
   //   clears removes buttons from header
   clearHeader();
-  //   status: gamemode,score,number of turns left
+  // add  status: gamemode,score,number of turns left
+  //   Playing against another player
+  //         player 1: 1 | player 2: 2
+  //   out of 3 turns played 1
 }
 
 // clear header
@@ -35,3 +38,64 @@ function clearHeader() {
     header.removeChild(header.lastChild);
   }
 }
+//
+class Game {
+  constructor() {
+    (this.turn = "X"), (this.board = new Array(9).fill(null));
+  }
+  nextTurn() {
+    this.turn = this.turn == "X" ? "O" : "X";
+  }
+  makeMove(x) {
+    // if the game is not in progress ; dont make another move.
+    if (!this.isInProgress()) {
+      return;
+    }
+    // if board[x] has a value/not null , dont make move and dont go to the next turn.
+    if (this.board[x]) {
+      return;
+    }
+    this.board[x] = this.turn;
+    // if there is no winning combo proceed to the next turn.
+    if (!this.isWinningCombination()) {
+      this.nextTurn();
+    }
+  }
+  isWinningCombination() {
+    let winningCombo = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let combo of winningCombo) {
+      let [a, b, c] = combo;
+      console.log(combo);
+      if (
+        this.board[a] &&
+        this.board[a] == this.board[b] &&
+        this.board[a] == this.board[c]
+      ) {
+        return combo;
+      }
+    }
+    return null;
+  }
+  isInProgress() {
+    //game is over when winning combo is true and also when board does not include null
+    return !this.isWinningCombination() && this.board.includes(null);
+  }
+}
+
+const game = new Game();
+console.log(game.makeMove(0));
+console.log(game.makeMove(1));
+console.log(game.makeMove(4));
+console.log(game.makeMove(7));
+console.log(game.makeMove(8));
+console.log(game.board);
+console.log(game.isWinningCombination());
