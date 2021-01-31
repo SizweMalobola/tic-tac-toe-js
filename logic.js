@@ -29,6 +29,29 @@ function StartPlayerTwoMode() {
   //   Playing against another player
   //         player 1: 1 | player 2: 2
   //   out of 3 turns played 1
+  renderStatus();
+}
+function renderStatus() {
+  // create two buttons to keep track of player's score
+  let btnDiv = document.createElement("div");
+  btnDiv.setAttribute("id", "btn-div");
+  btnDiv.classList.add("d-flex", "justify-content-between");
+  let x, o;
+  x = document.createElement("button");
+  o = document.createElement("button");
+  x.classList.add("btn", "btn-dark");
+  o.classList.add("btn", "btn-dark");
+  console.log(x);
+  x.innerHTML = `<i class="fas fa-times"></i><i id="score">-</i>`;
+  o.innerHTML = `<i class="far fa-circle"></i><i id="score">-</i>`;
+  console.log(x);
+  console.log(o);
+  // append to header div
+  btnDiv.appendChild(x);
+  btnDiv.appendChild(o);
+  console.log(btnDiv);
+
+  header.appendChild(btnDiv);
 }
 
 // clear header
@@ -92,10 +115,3 @@ class Game {
 }
 
 const game = new Game();
-console.log(game.makeMove(0));
-console.log(game.makeMove(1));
-console.log(game.makeMove(4));
-console.log(game.makeMove(7));
-console.log(game.makeMove(8));
-console.log(game.board);
-console.log(game.isWinningCombination());
