@@ -1,6 +1,7 @@
 let board = document.querySelector("#board");
 let header = document.querySelector(".header");
 let startBtn = document.querySelector("#start-btn");
+let restartBtn = document.querySelector("#restart-btn");
 let botBtn;
 let twoPlayerBtn;
 
@@ -22,7 +23,10 @@ startBtn.addEventListener("click", () => {
 });
 
 function StartPlayerTwoMode() {
+  // display game board
   board.style.visibility = "visible";
+  // display restart button
+  restartBtn.style.visibility = "visible";
   //   clears removes buttons from header
   clearHeader();
   // add  status: gamemode,score,number of turns left
@@ -31,6 +35,8 @@ function StartPlayerTwoMode() {
   //   out of 3 turns played 1
   renderStatus();
 }
+//  event delegation on board element
+
 function renderStatus() {
   // create two buttons to keep track of player's score
   let btnDiv = document.createElement("div");
@@ -41,17 +47,18 @@ function renderStatus() {
   o = document.createElement("button");
   x.classList.add("btn", "btn-dark");
   o.classList.add("btn", "btn-dark");
-  console.log(x);
-  x.innerHTML = `<i class="fas fa-times"></i><i id="score">-</i>`;
-  o.innerHTML = `<i class="far fa-circle"></i><i id="score">-</i>`;
-  console.log(x);
-  console.log(o);
+  x.innerHTML = `<i class="fas fa-times"></i><i id="scorex">-</i>`;
+  o.innerHTML = `<i class="far fa-circle"></i><i id="scoreo">-</i>`;
+  // create a paragraph tag that will display who's turn it is
+  let pElement = document.createElement("p");
+  pElement.innerText = "start game by clicking block";
+  pElement.setAttribute("id", "current-turn");
+  pElement.classList.add("muted");
   // append to header div
   btnDiv.appendChild(x);
   btnDiv.appendChild(o);
-  console.log(btnDiv);
-
   header.appendChild(btnDiv);
+  header.appendChild(pElement);
 }
 
 // clear header

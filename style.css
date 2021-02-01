@@ -10,7 +10,6 @@ body > div:first-child {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 5%;
   top: 40%;
 }
 /* header animaton */
@@ -28,19 +27,31 @@ body > div:first-child {
 #board {
   margin: 0 auto;
   position: relative;
-  top: 30%;
-  height: 50%;
-  width: 50%;
+  top: 33%;
+  height: 40%;
+  width: 40%;
   visibility: hidden;
 }
-
 .tile {
   height: 100%;
   width: 100%;
   border: solid royalblue 5px;
 }
+/* restart button */
+#restart-btn {
+  visibility: hidden;
+  position: relative;
+  top: 35%;
+  width: 10%;
+}
+
 /* status */
 /* btn div */
+#btn-div button {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
 #btn-div button {
   width: 30%;
   text-align: start;
