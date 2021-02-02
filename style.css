@@ -31,6 +31,12 @@ body > div:first-child {
   height: 40%;
   width: 40%;
   visibility: hidden;
+  z-index: 1;
+}
+.col-sm-4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .tile {
   height: 100%;
@@ -58,4 +64,17 @@ body > div:first-child {
 }
 #btn-div button i:first-child {
   width: 90%;
+}
+/* winner banner */
+#winner-popup {
+  position: relative;
+  top: -1%;
+  height: 20%;
+  width: 100%;
+  visibility: hidden;
+  z-index: 34;
+  background-color: rgba(0, 0, 0, 0.589);
+}
+#winner {
+  font-size: 2rem;
 }

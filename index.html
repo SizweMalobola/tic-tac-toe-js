@@ -18,35 +18,41 @@
         <button id="start-btn" class="btn btn-dark btn-lg">START</button>
       </div>
       <div id="board" class="row g-2">
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-index="0">
           <div class="tile"></div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-index="1">
           <div class="tile"></div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-index="2">
           <div class="tile"></div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-index="3">
           <div class="tile"></div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-index="4">
           <div class="tile"></div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-index="5">
           <div class="tile"></div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-index="6">
           <div class="tile"></div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-index="7">
           <div class="tile"></div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-index="8">
           <div class="tile"></div>
         </div>
       </div>
       <button id="restart-btn" class="btn btn-primary">Restart</button>
+      <div
+        id="winner-popup"
+        class="text-light d-flex justify-content-center align-items-center"
+      >
+        <p id="winner"></p>
+      </div>
     </div>
     <!-- scripts -->
     <script src="logic.js"></script>

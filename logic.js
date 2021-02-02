@@ -2,6 +2,7 @@ let board = document.querySelector("#board");
 let header = document.querySelector(".header");
 let startBtn = document.querySelector("#start-btn");
 let restartBtn = document.querySelector("#restart-btn");
+let winnerPopup = document.querySelector("#winner-popup");
 let botBtn;
 let twoPlayerBtn;
 
@@ -25,6 +26,8 @@ startBtn.addEventListener("click", () => {
 function StartPlayerTwoMode() {
   // display game board
   board.style.visibility = "visible";
+  // render game board
+
   // display restart button
   restartBtn.style.visibility = "visible";
   //   clears removes buttons from header
@@ -36,7 +39,71 @@ function StartPlayerTwoMode() {
   renderStatus();
 }
 //  event delegation on board element
+board.addEventListener("click", function (e) {
+  if (e.target.classList.contains("tile")) {
+    game.makeMove(e.target.parentNode.getAttribute("data-index"));
+    renderBoard();
+    // update turn
+    updateTurn();
+    // display winner of the round
+    if (!game.isInProgress()) {
+      let displayWinner = document.querySelector("#winner");
+      if (game.isWinningCombination()) {
+        displayWinner.innerText = `${game.turn} IS THE WINNER OF THIS ROUND`;
+      } else {
+        // tie
+        displayWinner.innerText = ` THE ROUND ENDED WITH A DRAW`;
+      }
+      winnerPopup.style.visibility = "visible";
+    }
+  }
+});
 
+winnerPopup.addEventListener("click", function (e) {
+  if (e.target.id == "winner-popup") {
+    e.target.style.visibility = "hidden";
+    // update score
+    game.updateScore();
+    let x = document.querySelector("#scorex");
+    let o = document.querySelector("#scoreo");
+    x.innerText = game.score[0];
+    o.innerText = game.score[1];
+    game.resetBoard();
+    renderBoard();
+    updateTurn();
+  }
+});
+
+restartBtn.addEventListener("click", function (e) {
+  game.resetBoard();
+  game.resetScore();
+  resetStatus();
+  renderBoard();
+});
+function resetStatus() {
+  let x = document.querySelector("#scorex");
+  let o = document.querySelector("#scoreo");
+  let currentTurn = document.querySelector("#current-turn");
+  x.innerText = "-";
+  o.innerText = "-";
+  currentTurn.innerText = "start game by clicking block";
+}
+function updateTurn() {
+  let currentTurn = document.querySelector("#current-turn");
+  if (game.isInProgress()) {
+    currentTurn.innerText = `${game.turn} Turn`;
+  } else {
+    currentTurn.innerText = `Game Over`;
+  }
+}
+
+function renderBoard() {
+  let gameBoard = game.board;
+  let tiles = document.querySelectorAll(".tile");
+  tiles.forEach(function (item, index) {
+    item.textContent = gameBoard[index];
+  });
+}
 function renderStatus() {
   // create two buttons to keep track of player's score
   let btnDiv = document.createElement("div");
@@ -72,6 +139,8 @@ function clearHeader() {
 class Game {
   constructor() {
     (this.turn = "X"), (this.board = new Array(9).fill(null));
+    // score will keep score of who is winning the game
+    this.score = new Array(2).fill(0);
   }
   nextTurn() {
     this.turn = this.turn == "X" ? "O" : "X";
@@ -90,6 +159,9 @@ class Game {
     if (!this.isWinningCombination()) {
       this.nextTurn();
     }
+    if (this.isWinningCombination && !this.board.includes(null)) {
+      this.updateScore();
+    }
   }
   isWinningCombination() {
     let winningCombo = [
@@ -104,7 +176,6 @@ class Game {
     ];
     for (let combo of winningCombo) {
       let [a, b, c] = combo;
-      console.log(combo);
       if (
         this.board[a] &&
         this.board[a] == this.board[b] &&
@@ -118,6 +189,27 @@ class Game {
   isInProgress() {
     //game is over when winning combo is true and also when board does not include null
     return !this.isWinningCombination() && this.board.includes(null);
+  }
+  updateScore() {
+    if (this.isWinningCombination()) {
+      let winner = this.turn;
+      if (winner == "X") {
+        this.score[0] += 1;
+      } else {
+        this.score[1] += 1;
+      }
+    } else {
+      // tied games increases both player's scores
+      this.score[0] += 1;
+      this.score[1] += 1;
+    }
+  }
+  resetBoard() {
+    this.board = new Array(9).fill(null);
+    this.turn = "X";
+  }
+  resetScore() {
+    this.score = new Array(2).fill(0);
   }
 }
 
