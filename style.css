@@ -1,5 +1,7 @@
-body {
-  color: white;
+* {
+  /* color: white; */
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 body > div:first-child {
   height: 100vh;
@@ -25,29 +27,32 @@ body > div:first-child {
 
 /* board */
 #board {
+  font-family: "Potta One", cursive;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  border: solid plum 5px;
+  border-radius: 10px;
   margin: 0 auto;
   position: relative;
-  top: 33%;
+  top: 34%;
   height: 40%;
   width: 40%;
   visibility: hidden;
   z-index: 1;
 }
-.col-sm-4 {
+.tile {
+  font-family: "Potta One", cursive;
+  border: solid plum 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.tile {
-  height: 100%;
-  width: 100%;
-  border: solid royalblue 5px;
+  font-size: 4rem;
 }
 /* restart button */
 #restart-btn {
   visibility: hidden;
   position: relative;
-  top: 35%;
+  top: 36%;
   width: 10%;
 }
 
@@ -63,18 +68,32 @@ body > div:first-child {
   text-align: start;
 }
 #btn-div button i:first-child {
-  width: 90%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 4.8rem;
+}
+/* currentturn */
+#current-turn {
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 /* winner banner */
 #winner-popup {
-  position: relative;
-  top: -1%;
-  height: 20%;
+  position: absolute;
+  top: 0%;
+  height: 100%;
   width: 100%;
   visibility: hidden;
   z-index: 34;
-  background-color: rgba(0, 0, 0, 0.589);
+  backdrop-filter: blur(3px);
 }
 #winner {
-  font-size: 2rem;
+  font-size: 3rem;
+  color: black;
+  font-weight: bold;
+}
+#winner span {
+  display: block;
+  font-weight: bolder;
+  font-size: 6rem;
 }

@@ -41,15 +41,20 @@ function StartPlayerTwoMode() {
 //  event delegation on board element
 board.addEventListener("click", function (e) {
   if (e.target.classList.contains("tile")) {
-    game.makeMove(e.target.parentNode.getAttribute("data-index"));
+    game.makeMove(e.target.getAttribute("data-index"));
     renderBoard();
     // update turn
     updateTurn();
     // display winner of the round
     if (!game.isInProgress()) {
       let displayWinner = document.querySelector("#winner");
+      // deactivate restart button
+      restartBtn.setAttribute("disabled", true);
+      //
       if (game.isWinningCombination()) {
-        displayWinner.innerText = `${game.turn} IS THE WINNER OF THIS ROUND`;
+        displayWinner.innerHTML = `THE WINNER OF THIS ROUND IS <span>${game.turn}<span> `;
+        // highlight the winning combination
+        highlightCombo();
       } else {
         // tie
         displayWinner.innerText = ` THE ROUND ENDED WITH A DRAW`;
@@ -58,23 +63,42 @@ board.addEventListener("click", function (e) {
     }
   }
 });
+function highlightCombo() {
+  let [a, b, c] = game.isWinningCombination();
+  let tiles = document.querySelectorAll(".tile");
+  tiles[a].style.background = "green";
+  tiles[b].style.background = "green";
+  tiles[c].style.background = "green";
+}
+function removeHighlights() {
+  let [a, b, c] = game.isWinningCombination();
+  let tiles = document.querySelectorAll(".tile");
+  tiles[a].style.background = "white";
+  tiles[b].style.background = "white";
+  tiles[c].style.background = "white";
+}
 
 winnerPopup.addEventListener("click", function (e) {
   if (e.target.id == "winner-popup") {
     e.target.style.visibility = "hidden";
+    // inable restart btn
+    restartBtn.removeAttribute("disabled");
     // update score
     game.updateScore();
+    // remove tile highlights
+    removeHighlights();
+    //
     let x = document.querySelector("#scorex");
     let o = document.querySelector("#scoreo");
-    x.innerText = game.score[0];
-    o.innerText = game.score[1];
+    x.innerText = game.score[0] == 0 ? "-" : game.score[0];
+    o.innerText = game.score[1] == 0 ? "-" : game.score[1];
     game.resetBoard();
     renderBoard();
     updateTurn();
   }
 });
 
-restartBtn.addEventListener("click", function (e) {
+restartBtn.addEventListener("click", function () {
   game.resetBoard();
   game.resetScore();
   resetStatus();
@@ -114,13 +138,12 @@ function renderStatus() {
   o = document.createElement("button");
   x.classList.add("btn", "btn-dark");
   o.classList.add("btn", "btn-dark");
-  x.innerHTML = `<i class="fas fa-times"></i><i id="scorex">-</i>`;
-  o.innerHTML = `<i class="far fa-circle"></i><i id="scoreo">-</i>`;
+  x.innerHTML = `<i>X</i><i id="scorex">-</i>`;
+  o.innerHTML = `<i>O</i><i id="scoreo">-</i>`;
   // create a paragraph tag that will display who's turn it is
   let pElement = document.createElement("p");
   pElement.innerText = "start game by clicking block";
   pElement.setAttribute("id", "current-turn");
-  pElement.classList.add("muted");
   // append to header div
   btnDiv.appendChild(x);
   btnDiv.appendChild(o);
@@ -158,9 +181,6 @@ class Game {
     // if there is no winning combo proceed to the next turn.
     if (!this.isWinningCombination()) {
       this.nextTurn();
-    }
-    if (this.isWinningCombination && !this.board.includes(null)) {
-      this.updateScore();
     }
   }
   isWinningCombination() {
